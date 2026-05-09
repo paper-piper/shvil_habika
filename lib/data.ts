@@ -265,6 +265,10 @@ export const trailAngels = [
   { name: "מתן", services: "מילוי מים, טעינת פלאפונים, הכוונה לשביל", location: "שדמות מחולה", phone: "0546466685" },
   { name: "חננאל", services: "מילוי מים, הטענת טלפונים", location: "שדמות מחולה", phone: "0527894499" },
   { name: "חן מדר", services: "לינה ועוד", location: "גדי", phone: "0556658688" },
+  { name: "יותם זלייט", services: "לינה עד 3 אנשים, ארוחה, כביסה, מקלחת", location: "רתם", phone: "0545717212" },
+  { name: "יעקב", services: "אשמח לספק לינה, מילוי מים, ואולי גם ארוחת ערב (תלוי כמות)", location: "מחולה", phone: "0546279022" },
+  { name: "נעם", services: "הקפצות, מילוי מים, שינה (ליחידים)", location: "חמדת", phone: "055-665-1712" },
+
 ]
 
 export const navLinks = [
