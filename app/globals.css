@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Desert-inspired color palette for Shvil HaBika */
+  --color-background: #F5F1E8;
+  --color-foreground: #2C3E2F;
+  
+  --color-card: #FFFFFF;
+  --color-card-foreground: #2C3E2F;
+  
+  --color-primary: #6B8E23;
+  --color-primary-foreground: #FFFFFF;
+  
+  --color-secondary: #D4A574;
+  --color-secondary-foreground: #2C3E2F;
+  
+  --color-muted: #E8E3D9;
+  --color-muted-foreground: #6B7B6E;
+  
+  --color-accent: #8B6F47;
+  --color-accent-foreground: #FFFFFF;
+  
+  --color-destructive: #DC2626;
+  --color-destructive-foreground: #FFFFFF;
+  
+  --color-border: #D4CFC3;
+  --color-input: #D4CFC3;
+  --color-ring: #6B8E23;
+  
+  --radius: 0.75rem;
+  
+  /* Font families */
+  --font-sans: "Rubik", system-ui, sans-serif;
+  --font-serif: "Frank Ruhl Libre", Georgia, serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  html[data-scroll-behavior="smooth"] {
+    scroll-behavior: smooth;
+  }
+}
