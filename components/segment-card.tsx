@@ -45,7 +45,9 @@ export function SegmentCard({ segment, priority = false, className }: SegmentCar
       <div className="aspect-video relative overflow-hidden">
         <Image
           src={segmentImages[segment.id] || "/images/segments/1.jpeg"}
-          alt={segment.title}
+          /* Decorative: the card's heading already carries the title, and this
+             <Image> sits inside the same link. */
+          alt=""
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority={priority}
@@ -57,8 +59,8 @@ export function SegmentCard({ segment, priority = false, className }: SegmentCar
           <span className="text-sm font-bold text-primary">מקטע {segment.id}</span>
         </div>
         {segment.requiresCoordination && (
-          <div className="absolute top-3 left-3 flex items-center gap-1 bg-destructive/90 text-destructive-foreground px-2 py-1 rounded-md text-xs font-medium">
-            <AlertTriangle className="h-3 w-3" />
+          <div className="absolute top-3 left-3 flex items-center gap-1 bg-destructive text-destructive-foreground px-2 py-1 rounded-md text-xs font-medium">
+            <AlertTriangle className="h-3 w-3" aria-hidden="true" />
             <span>דורש תיאום</span>
           </div>
         )}
@@ -70,25 +72,34 @@ export function SegmentCard({ segment, priority = false, className }: SegmentCar
             {segment.title}
           </h3>
           <span className={cn("px-2 py-1 rounded-md text-xs font-medium whitespace-nowrap", difficultyColors[segment.difficulty])}>
+            <span className="sr-only">דרגת קושי: </span>
             {segment.difficulty}
           </span>
         </div>
-        
+
         <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
           {segment.description}
         </p>
-        
+
         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-1.5">
-            <Clock className="h-4 w-4 text-primary" />
-            <span>{segment.duration}</span>
+            <Clock className="h-4 w-4 text-primary" aria-hidden="true" />
+            <span>
+              <span className="sr-only">זמן הליכה משוער: </span>
+              {segment.duration}
+            </span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Ruler className="h-4 w-4 text-primary" />
-            <span>{segment.distance}</span>
+            <Ruler className="h-4 w-4 text-primary" aria-hidden="true" />
+            <span>
+              <span className="sr-only">אורך: </span>
+              {segment.distance}
+            </span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Mountain className="h-4 w-4 text-primary" />
+          {/* Repeats the difficulty badge above; hidden from AT so the card's
+              accessible name doesn't say it twice. */}
+          <div className="flex items-center gap-1.5" aria-hidden="true">
+            <Mountain className="h-4 w-4 text-primary" aria-hidden="true" />
             <span>{segment.difficulty}</span>
           </div>
         </div>

@@ -8,24 +8,26 @@
   --color-card: #FFFFFF;
   --color-card-foreground: #2C3E2F;
   
-  --color-primary: #6B8E23;
+  /* Contrast-tuned for WCAG 2.1 AA (>= 4.5:1 for body text, both as a
+     foreground on --color-background and as a background under white text). */
+  --color-primary: #4F681A;
   --color-primary-foreground: #FFFFFF;
-  
+
   --color-secondary: #D4A574;
   --color-secondary-foreground: #2C3E2F;
-  
+
   --color-muted: #E8E3D9;
-  --color-muted-foreground: #6B7B6E;
-  
+  --color-muted-foreground: #54655A;
+
   --color-accent: #8B6F47;
   --color-accent-foreground: #FFFFFF;
-  
-  --color-destructive: #DC2626;
+
+  --color-destructive: #C81E1E;
   --color-destructive-foreground: #FFFFFF;
-  
+
   --color-border: #D4CFC3;
   --color-input: #D4CFC3;
-  --color-ring: #6B8E23;
+  --color-ring: #4F681A;
   
   --radius: 0.75rem;
   
@@ -43,8 +45,54 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
+
   html[data-scroll-behavior="smooth"] {
     scroll-behavior: smooth;
+  }
+
+  /* WCAG 2.4.7 Focus Visible / 1.4.11 Non-text Contrast.
+     The double ring (dark core + light halo) stays visible on both the light
+     page background and the dark footer / hero-image sections.
+     :focus-visible only fires for keyboard users, so mouse users see nothing. */
+  :focus-visible {
+    outline: 3px solid var(--color-ring);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-background);
+    border-radius: 0.25rem;
+  }
+
+  /* WCAG 2.4.11 Focus Not Obscured: the header is sticky, so anchor targets
+     must clear it. */
+  :target {
+    scroll-margin-top: 5rem;
+  }
+
+  /* WCAG 2.3.3 Animation from Interactions. */
+  @media (prefers-reduced-motion: reduce) {
+    html[data-scroll-behavior="smooth"] {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility skip-link {
+  /* Visually hidden until focused, then pinned to the top of the viewport. */
+  position: fixed;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  transition: transform 150ms ease-in-out;
+
+  &:focus {
+    transform: translateY(0);
   }
 }

@@ -34,7 +34,7 @@ export default function TrailAngelsPage() {
                 <div>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Heart className="h-5 w-5 text-primary" />
+                      <Heart className="h-5 w-5 text-primary" aria-hidden="true" />
                     </div>
                     <h2 className="text-xl font-bold text-foreground">מה זה מלאכי שביל?</h2>
                   </div>
@@ -56,7 +56,7 @@ export default function TrailAngelsPage() {
                   <ul className="space-y-2">
                     {guidelines.map((guideline, index) => (
                       <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" aria-hidden="true" />
                         <span>{guideline}</span>
                       </li>
                     ))}

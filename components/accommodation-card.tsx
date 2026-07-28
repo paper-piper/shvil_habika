@@ -36,14 +36,19 @@ export function AccommodationCard({ accommodation, className }: AccommodationCar
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-secondary/30 to-accent/20 flex items-center justify-center">
             <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-              <MapPin className="h-8 w-8 text-primary" />
+              <MapPin className="h-8 w-8 text-primary" aria-hidden="true" />
             </div>
           </div>
         )}
-        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-foreground/70 to-transparent p-3">
+        {/* /85 rather than /70: this caption sits on an arbitrary photo, so the
+            scrim has to carry 4.5:1 even over a blown-out sky. */}
+        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-foreground/85 to-transparent p-3">
           <div className="flex items-center gap-1.5 text-background">
-            <MapPin className="h-4 w-4" />
-            <span className="text-sm font-medium">{accommodation.location}</span>
+            <MapPin className="h-4 w-4" aria-hidden="true" />
+            <span className="text-sm font-medium">
+              <span className="sr-only">מיקום: </span>
+              {accommodation.location}
+            </span>
           </div>
         </div>
       </div>
@@ -58,28 +63,39 @@ export function AccommodationCard({ accommodation, className }: AccommodationCar
         </p>
         
         <div className="space-y-2 mb-4">
+          {/* Icons convey meaning here, so each value gets a text label too
+              (WCAG 1.1.1) — otherwise a screen reader just reads a bare number. */}
           {accommodation.capacity && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Users className="h-4 w-4 text-primary" />
-              <span>{accommodation.capacity}</span>
+              <Users className="h-4 w-4 text-primary" aria-hidden="true" />
+              <span>
+                <span className="sr-only">קיבולת: </span>
+                {accommodation.capacity}
+              </span>
             </div>
           )}
           {accommodation.contact && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Phone className="h-4 w-4 text-primary" />
-              <span>{accommodation.contact}</span>
+              <Phone className="h-4 w-4 text-primary" aria-hidden="true" />
+              <span>
+                <span className="sr-only">איש קשר: </span>
+                {accommodation.contact}
+              </span>
             </div>
           )}
         </div>
-        
+
+        {/* aria-label disambiguates: without it every card on the page exposes
+            an identical "פרטים נוספים" link (WCAG 2.4.4). */}
         <a
           href={accommodation.link}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={`פרטים נוספים על ${accommodation.name} (נפתח בחלון חדש)`}
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors w-full justify-center"
         >
           <span>פרטים נוספים</span>
-          <ExternalLink className="h-4 w-4" />
+          <ExternalLink className="h-4 w-4" aria-hidden="true" />
         </a>
       </div>
     </div>

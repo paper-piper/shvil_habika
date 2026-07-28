@@ -40,9 +40,18 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" data-scroll-behavior="smooth">
       <body className={`${rubik.variable} ${frankRuhlLibre.variable} font-sans antialiased`}>
+        {/* WCAG 2.4.1 Bypass Blocks — lets keyboard users jump the nav. */}
+        <a
+          href="#main-content"
+          className="skip-link bg-primary text-primary-foreground px-4 py-3 rounded-lg font-medium shadow-lg"
+        >
+          דלג לתוכן הראשי
+        </a>
         <div className="flex min-h-screen flex-col">
           <Header />
-          <main className="flex-1">{children}</main>
+          <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
+            {children}
+          </main>
           <Footer />
         </div>
       </body>

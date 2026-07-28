@@ -21,7 +21,7 @@ export function TrailAngelCard({ angel, className }: TrailAngelCardProps) {
     >
       <div className="flex items-start gap-4">
         <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-          <Heart className="h-6 w-6 text-primary" />
+          <Heart className="h-6 w-6 text-primary" aria-hidden="true" />
         </div>
         
         <div className="flex-1 min-w-0">
@@ -30,19 +30,25 @@ export function TrailAngelCard({ angel, className }: TrailAngelCardProps) {
           </h3>
           
           <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-2">
-            <MapPin className="h-4 w-4" />
-            <span>{angel.location}</span>
+            <MapPin className="h-4 w-4" aria-hidden="true" />
+            <span>
+              <span className="sr-only">מיקום: </span>
+              {angel.location}
+            </span>
           </div>
-          
+
           <p className="text-sm text-muted-foreground mb-3">
             {angel.services}
           </p>
-          
+
+          {/* Every angel card otherwise exposes a link named only by a bare
+              phone number, with no indication of whom it calls. */}
           <a
             href={`tel:${angel.phone}`}
+            aria-label={`התקשרו ל${angel.name} בטלפון ${angel.phone}`}
             className="inline-flex items-center gap-2 text-primary font-medium text-sm hover:underline"
           >
-            <Phone className="h-4 w-4" />
+            <Phone className="h-4 w-4" aria-hidden="true" />
             <span dir="ltr">{angel.phone}</span>
           </a>
         </div>

@@ -57,13 +57,17 @@ export default async function SegmentPage({ params }: PageProps) {
       {/* Hero */}
       <section className="bg-gradient-to-b from-primary/10 to-background py-12 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <Link href="/segments" className="hover:text-foreground transition-colors">
-              מקטעים
-            </Link>
-            <span>/</span>
-            <span>מקטע {segment.id}</span>
-          </div>
+          <nav aria-label="מסלול ניווט" className="mb-4">
+            <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+              <li>
+                <Link href="/segments" className="hover:text-foreground transition-colors">
+                  מקטעים
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page">מקטע {segment.id}</li>
+            </ol>
+          </nav>
           
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div>
@@ -76,7 +80,7 @@ export default async function SegmentPage({ params }: PageProps) {
               
               {segment.requiresCoordination && (
                 <div className="flex items-start gap-3 bg-destructive/10 border border-destructive/20 rounded-lg p-4 mb-6">
-                  <AlertTriangle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
+                  <AlertTriangle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" aria-hidden="true" />
                   <div>
                     <p className="font-medium text-destructive">מקטע זה דורש תיאום מראש</p>
                     <p className="text-sm text-muted-foreground mt-1">
@@ -84,9 +88,10 @@ export default async function SegmentPage({ params }: PageProps) {
                     </p>
                     <a
                       href="tel:0505804258"
+                      aria-label="התקשרו למוקד הבקעה בטלפון 050-5804258"
                       className="inline-flex items-center gap-2 text-primary font-medium text-sm mt-2 hover:underline"
                     >
-                      <Phone className="h-4 w-4" />
+                      <Phone className="h-4 w-4" aria-hidden="true" />
                       <span>התקשרו למוקד הבקעה</span>
                     </a>
                   </div>
@@ -99,12 +104,15 @@ export default async function SegmentPage({ params }: PageProps) {
                   segment.difficulty === "בינוני" ? "bg-yellow-100 text-yellow-800" :
                   "bg-red-100 text-red-800"
                 }`}>
+                  <span className="sr-only">דרגת קושי: </span>
                   {segment.difficulty}
                 </span>
                 <span className="px-3 py-1.5 rounded-lg text-sm font-medium bg-muted text-muted-foreground">
+                  <span className="sr-only">אורך: </span>
                   {segment.distance}
                 </span>
                 <span className="px-3 py-1.5 rounded-lg text-sm font-medium bg-muted text-muted-foreground">
+                  <span className="sr-only">זמן הליכה משוער: </span>
                   {segment.duration}
                 </span>
               </div>
@@ -113,7 +121,8 @@ export default async function SegmentPage({ params }: PageProps) {
             <div className="aspect-video relative rounded-2xl overflow-hidden">
               <Image
                 src={segmentImages[segment.id] || "/images/segments/1.jpeg"}
-                alt={segment.title}
+                /* Decorative: the <h1> alongside it already states the title. */
+                alt=""
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
@@ -153,7 +162,7 @@ export default async function SegmentPage({ params }: PageProps) {
             {segment.youtubeUrl && (
               <div className="lg:w-48 flex-shrink-0">
                 <div className="flex items-center gap-2 mb-3">
-                  <Play className="h-4 w-4 text-primary flex-shrink-0" />
+                  <Play className="h-4 w-4 text-primary flex-shrink-0" aria-hidden="true" />
                   <h3 className="text-sm font-bold text-foreground">סרטון המקטע</h3>
                 </div>
                 <div className="aspect-[9/16] w-full max-w-[180px] mx-auto lg:mx-0 rounded-xl overflow-hidden shadow-lg border border-border">
@@ -172,7 +181,7 @@ export default async function SegmentPage({ params }: PageProps) {
           {segment.ravshatz && segment.ravshatz.length > 0 && (
             <div className="mt-6 bg-primary/8 border border-primary/20 rounded-xl p-6">
               <div className="flex items-center gap-2 mb-4">
-                <ShieldCheck className="h-5 w-5 text-primary flex-shrink-0" />
+                <ShieldCheck className="h-5 w-5 text-primary flex-shrink-0" aria-hidden="true" />
                 <h3 className="font-bold text-foreground">לינה בתוך היישוב - תיאום עם רבש"צ</h3>
               </div>
               <p className="text-sm text-muted-foreground mb-4">
@@ -187,9 +196,10 @@ export default async function SegmentPage({ params }: PageProps) {
                     </div>
                     <a
                       href={`tel:${r.phone.replace(/\s+/g, "")}`}
+                      aria-label={`התקשרו ל${r.name}, רבש"צ ${r.town}, בטלפון ${r.phone}`}
                       className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors flex-shrink-0"
                     >
-                      <Phone className="h-4 w-4" />
+                      <Phone className="h-4 w-4" aria-hidden="true" />
                       <span dir="ltr">{r.phone}</span>
                     </a>
                   </div>
@@ -214,7 +224,7 @@ export default async function SegmentPage({ params }: PageProps) {
                 className="text-primary font-medium hover:underline hidden sm:inline-flex items-center gap-1"
               >
                 כל האפשרויות
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
             
@@ -228,7 +238,7 @@ export default async function SegmentPage({ params }: PageProps) {
       )}
 
       {/* Navigation */}
-      <section className="py-8 border-t border-border">
+      <nav aria-label="ניווט בין מקטעים" className="py-8 border-t border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             {prevSegment ? (
@@ -236,7 +246,7 @@ export default async function SegmentPage({ params }: PageProps) {
                 href={`/segments/${prevSegment.id}`}
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
               >
-                <ArrowRight className="h-5 w-5" />
+                <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 <div className="text-right">
                   <p className="text-sm">המקטע הקודם</p>
                   <p className="font-medium text-foreground">{prevSegment.title}</p>
@@ -255,14 +265,14 @@ export default async function SegmentPage({ params }: PageProps) {
                   <p className="text-sm">המקטע הבא</p>
                   <p className="font-medium text-foreground">{nextSegment.title}</p>
                 </div>
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="h-5 w-5" aria-hidden="true" />
               </Link>
             ) : (
               <div />
             )}
           </div>
         </div>
-      </section>
+      </nav>
     </div>
   )
 }

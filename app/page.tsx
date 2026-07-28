@@ -40,20 +40,24 @@ export default function HomePage() {
         <div className="absolute inset-0">
           <Image
             src="/images/hero/landscape_image.jpeg"
-            alt="נוף בקעת הירדן"
+            /* Decorative backdrop for the title block, not content. */
+            alt=""
             fill
             sizes="100vw"
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-foreground/50" />
+          {/* The sky in this photo reaches near-white, so the scrim has to be
+              this heavy for the body copy below to clear 4.5:1 (WCAG 1.4.3). */}
+          <div className="absolute inset-0 bg-foreground/75" />
         </div>
         
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 text-center">
           <div className="flex justify-center mb-6">
             <Image
               src="/images/icon/rounded_icon_clear.png"
-              alt="שביל הבקעה"
+              /* Decorative: the <h1> directly below says the same thing. */
+              alt=""
               width={120}
               height={120}
               className="w-28 h-28 drop-shadow-xl"
@@ -64,11 +68,11 @@ export default function HomePage() {
             שביל הבקעה
           </h1>
           
-          <p className="text-xl md:text-2xl text-background/90 mb-4 font-serif drop-shadow-md">
+          <p className="text-xl md:text-2xl text-background mb-4 font-serif drop-shadow-md">
             מסע בלב בקעת הירדן
           </p>
-          
-          <p className="text-lg text-background/80 max-w-2xl mx-auto mb-8 text-pretty leading-relaxed drop-shadow-md">
+
+          <p className="text-lg text-background max-w-2xl mx-auto mb-8 text-pretty leading-relaxed drop-shadow-md">
             שביל הליכה באורך של כ-110 קילומטרים, המחולק לשישה מקטעים החוצה את בקעת הירדן מצפון לדרום. 
             גלו מעיינות מרהיבים, מצפים מרשימים ואתרי טבע ומורשת שמספרים את סיפורה של הבקעה.
           </p>
@@ -78,7 +82,7 @@ export default function HomePage() {
               href="/map"
               className="inline-flex items-center justify-center gap-2 bg-background text-foreground px-6 py-3 rounded-lg font-medium hover:bg-background/90 transition-colors shadow-lg"
             >
-              <Map className="h-5 w-5" />
+              <Map className="h-5 w-5" aria-hidden="true" />
               <span>צפה במפה</span>
             </Link>
             <Link
@@ -86,7 +90,7 @@ export default function HomePage() {
               className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-lg"
             >
               <span>מקטעי השביל</span>
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -112,7 +116,7 @@ export default function HomePage() {
                 className="group bg-card rounded-xl p-6 border border-border hover:border-primary/50 hover:shadow-lg transition-all duration-300"
               >
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                  <feature.icon className="h-6 w-6 text-primary" />
+                  <feature.icon className="h-6 w-6 text-primary" aria-hidden="true" />
                 </div>
                 <h3 className="font-bold text-lg text-foreground mb-2 group-hover:text-primary transition-colors">
                   {feature.title}
@@ -143,7 +147,7 @@ export default function HomePage() {
               className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
             >
               <span>לכל המקטעים</span>
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
           
@@ -171,12 +175,13 @@ export default function HomePage() {
                 href="/safety"
                 className="inline-flex items-center justify-center gap-2 bg-background text-foreground px-6 py-3 rounded-lg font-medium hover:bg-background/90 transition-colors"
               >
-                <Shield className="h-5 w-5" />
+                <Shield className="h-5 w-5" aria-hidden="true" />
                 <span>הנחיות בטיחות</span>
               </Link>
               <a
                 href="tel:0505804258"
-                className="inline-flex items-center justify-center gap-2 border border-background/30 text-background px-6 py-3 rounded-lg font-medium hover:bg-background/10 transition-colors"
+                aria-label="תיאום מוקד הבקעה בטלפון 050-5804258"
+                className="inline-flex items-center justify-center gap-2 border border-background/50 text-background px-6 py-3 rounded-lg font-medium hover:bg-background/10 transition-colors"
               >
                 <span>תיאום מוקד הבקעה</span>
               </a>

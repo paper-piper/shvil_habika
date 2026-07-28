@@ -33,7 +33,7 @@ export function RestaurantCard({ restaurant, className }: RestaurantCardProps) {
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-secondary/30 flex items-center justify-center">
             <div className="h-16 w-16 rounded-full bg-accent/10 flex items-center justify-center">
-              <UtensilsCrossed className="h-8 w-8 text-accent" />
+              <UtensilsCrossed className="h-8 w-8 text-accent" aria-hidden="true" />
             </div>
           </div>
         )}
@@ -48,14 +48,17 @@ export function RestaurantCard({ restaurant, className }: RestaurantCardProps) {
           {restaurant.description}
         </p>
         
+        {/* aria-label disambiguates: without it every card on the page exposes
+            an identical "מיקום במפה" link (WCAG 2.4.4). */}
         <a
           href={restaurant.link}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={`מיקום ${restaurant.name} במפה (נפתח בחלון חדש)`}
           className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-accent/90 transition-colors w-full justify-center"
         >
           <span>מיקום במפה</span>
-          <ExternalLink className="h-4 w-4" />
+          <ExternalLink className="h-4 w-4" aria-hidden="true" />
         </a>
       </div>
     </div>
