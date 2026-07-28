@@ -144,7 +144,10 @@ export const accommodations = [
     description: "צימר על הצוק לזוג + 2 וצימר על הגובה – צימר זוגי ומתוק. אירוח מפנק מול נוף עוצר נשימה באווירה חמה ומאירה.",
     contact: "מוריה 0509377631",
     link: "https://www.bikathayarden.co.il/activities/%d7%94%d7%a6%d7%99%d7%9e%d7%a8%d7%99%d7%9d-%d7%a9%d7%9c-%d7%9e%d7%a9%d7%a4%d7%97%d7%aa-%d7%99%d7%96%d7%a8%d7%a2%d7%90%d7%9c%d7%99%d7%a9%d7%93%d7%9e%d7%95%d7%aa-%d7%9e%d7%97%d7%95%d7%9c%d7%94/",
-    image: "/images/accommodation/משפחת_עזריאלי.jpg",
+    // image intentionally omitted: the source file (public/images/accommodation/
+    // משפחת_עזריאלי.jpg) carries an embedded EXIF copyright claim
+    // (Copyright/Artist: "FANI") and we don't have a license for it.
+    // Falls back to the AccommodationCard placeholder icon.
   },
   {
     id: 5,
