@@ -78,8 +78,10 @@ export default async function SegmentPage({ params }: PageProps) {
                 {segment.description}
               </p>
               
+              {/* /7, not /10: text-destructive on a /10 tint of this box only
+                  clears 4.34:1 — just under the 4.5:1 floor (WCAG 1.4.3). */}
               {segment.requiresCoordination && (
-                <div className="flex items-start gap-3 bg-destructive/10 border border-destructive/20 rounded-lg p-4 mb-6">
+                <div className="flex items-start gap-3 bg-destructive/7 border border-destructive/20 rounded-lg p-4 mb-6">
                   <AlertTriangle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" aria-hidden="true" />
                   <div>
                     <p className="font-medium text-destructive">מקטע זה דורש תיאום מראש</p>
