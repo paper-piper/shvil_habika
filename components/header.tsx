@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { navLinks } from "@/lib/data"
 import { cn } from "@/lib/utils"
@@ -12,11 +12,31 @@ const MOBILE_MENU_ID = "mobile-navigation"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
   // Falls back to "" so nothing is marked current if the pathname is unavailable.
   const pathname = usePathname() ?? ""
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href)
+
+  const closeMenu = () => {
+    setIsMenuOpen(false)
+    // Without this, focus is left on an element that just became `inert`
+    // (or, for the Escape key, isn't left anywhere obvious at all), which
+    // strands keyboard users (WCAG 2.4.3 Focus Order).
+    menuButtonRef.current?.focus()
+  }
+
+  // Esc-to-close (WCAG 2.1.2 No Keyboard Trap): a menu you can only close
+  // by re-finding its toggle button is a trap for keyboard users.
+  useEffect(() => {
+    if (!isMenuOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu()
+    }
+    document.addEventListener("keydown", onKeyDown)
+    return () => document.removeEventListener("keydown", onKeyDown)
+  }, [isMenuOpen])
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-border">
@@ -58,6 +78,7 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden p-2 text-muted-foreground hover:text-foreground"
