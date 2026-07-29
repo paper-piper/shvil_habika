@@ -3,6 +3,7 @@ import { Rubik, Frank_Ruhl_Libre } from "next/font/google"
 import "./globals.css"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { Analytics } from "@vercel/analytics/next"
 
 const rubik = Rubik({
   subsets: ["latin", "hebrew"],
@@ -54,6 +55,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        <Analytics />
       </body>
     </html>
   )
