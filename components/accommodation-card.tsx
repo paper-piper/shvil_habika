@@ -20,7 +20,7 @@ export function AccommodationCard({ accommodation, className }: AccommodationCar
   return (
     <div
       className={cn(
-        "bg-card rounded-xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-lg transition-all duration-300",
+        "bg-card rounded-xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-lg transition-all duration-300 h-full flex flex-col",
         className
       )}
     >
@@ -53,7 +53,7 @@ export function AccommodationCard({ accommodation, className }: AccommodationCar
         </div>
       </div>
       
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-1">
         <h3 className="font-bold text-lg text-foreground mb-2 text-balance">
           {accommodation.name}
         </h3>
@@ -92,7 +92,7 @@ export function AccommodationCard({ accommodation, className }: AccommodationCar
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`פרטים נוספים על ${accommodation.name} (נפתח בחלון חדש)`}
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors w-full justify-center"
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors w-full justify-center mt-auto"
         >
           <span>פרטים נוספים</span>
           <ExternalLink className="h-4 w-4" aria-hidden="true" />
