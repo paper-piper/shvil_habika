@@ -42,17 +42,6 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-border">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/images/icon/full_icon.png"
-              alt=""
-              width={40}
-              height={40}
-              className="rounded-full w-10 h-10"
-            />
-            <span className="text-xl font-bold text-foreground">שביל הבקעה</span>
-          </Link>
 
           {/* Desktop Navigation */}
           <nav aria-label="ניווט ראשי" className="hidden md:flex items-center gap-1">
@@ -75,7 +64,17 @@ export function Header() {
               </Link>
             ))}
           </nav>
-
+                      {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/images/icon/full_icon.png"
+              alt=""
+              width={40}
+              height={40}
+              className="rounded-full w-10 h-10"
+            />
+            <span className="text-xl font-bold text-foreground">שביל הבקעה</span>
+          </Link>
           {/* Mobile Menu Button */}
           <button
             ref={menuButtonRef}

@@ -1,7 +1,9 @@
 import Link from "next/link"
-import { ExternalLink, Download, Map, Compass } from "lucide-react"
+import { Download, Map, Compass, Maximize2 } from "lucide-react"
 import { PageHeader } from "@/components/page-header"
 import { NewWindowHint } from "@/components/new-window-hint"
+import { TrailMap } from "@/components/trail-map/trail-map"
+import { ISRAEL_HIKING_URL } from "@/components/trail-map/config"
 import { segments } from "@/lib/data"
 
 export const metadata = {
@@ -19,39 +21,21 @@ export default function MapPage() {
 
       <section className="py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Interactive Map Embed */}
+          {/* Interactive Map */}
           <div className="mb-12">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between gap-4 mb-6">
               <h2 className="text-xl font-bold text-foreground">מפה אינטראקטיבית</h2>
-              <a
-                href="https://venerable-marshmallow-34fe00.netlify.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
-              >
+              <Link href="/map/full" className="inline-flex items-center gap-2 text-primary font-medium hover:underline">
+                <Maximize2 className="h-4 w-4" aria-hidden="true" />
                 <span>מסך מלא</span>
-                <NewWindowHint />
-                <ExternalLink className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </Link>
             </div>
-            
-            <div className="relative aspect-[16/9] bg-muted rounded-xl overflow-hidden border border-border">
-              <iframe
-                src="https://venerable-marshmallow-34fe00.netlify.app/"
-                className="absolute inset-0 w-full h-full"
-                title="מפה אינטראקטיבית של שביל הבקעה"
-                loading="lazy"
-              />
+
+            {/* Explicit height, not aspect-ratio: the map fills its parent with
+                height:100%, which only resolves against a definite height. */}
+            <div className="relative h-[30rem] sm:h-[34rem] lg:h-[38rem] bg-muted rounded-xl overflow-hidden border border-border">
+              <TrailMap />
             </div>
-            {/* WCAG 1.1.1 — an embedded interactive map can't be made
-                fully accessible from here, so point to the text equivalent. */}
-            <p className="mt-3 text-sm text-muted-foreground">
-              המפה האינטראקטיבית מוצגת במסגרת חיצונית. לחלופה נגישה בטקסט, ראו את{" "}
-              <a href="#segment-list" className="text-primary hover:underline font-medium">
-                רשימת מקטעי השביל
-              </a>{" "}
-              שבהמשך העמוד, הכוללת את אורך כל מקטע ואת פרטיו המלאים.
-            </p>
           </div>
 
           {/* Israel Hiking Map */}
@@ -67,7 +51,7 @@ export default function MapPage() {
                     מומלץ להשתמש במפת ישראל הייקינג לניווט בשטח. המפה כוללת את כל הסימונים והנקודות החשובות.
                   </p>
                   <a
-                    href="https://israelhiking.osm.org.il/share/Xv5jOPWGQr"
+                    href={ISRAEL_HIKING_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors"
