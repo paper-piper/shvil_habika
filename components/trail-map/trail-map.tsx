@@ -36,6 +36,8 @@ export function TrailMap({ cooperativeGestures = true }: TrailMapProps) {
     segmentStats,
     totalKm,
     poiCount,
+    pois,
+    selectPoi,
     selectedSegment,
     selectSegment,
     fitAll,
@@ -45,6 +47,16 @@ export function TrailMap({ cooperativeGestures = true }: TrailMapProps) {
   const [panelOpen, setPanelOpen] = useState(true)
   const [poiCategory, setPoiCategory] = useState("__all__")
   const [poiQuery, setPoiQuery] = useState("")
+
+  // Mirrors the Mapbox layer filter (applyPoiFilter) so the accessible list
+  // below shows exactly the same points as the map — the two must never
+  // disagree about what's "currently visible".
+  const filteredPois = pois.filter((poi) => {
+    if (poiCategory !== "__all__" && poi.category !== poiCategory) return false
+    const q = poiQuery.trim().toLocaleLowerCase("he")
+    if (q && !poi.name.toLocaleLowerCase("he").includes(q)) return false
+    return true
+  })
 
   const panelId = useId()
   const poiTypeId = useId()
@@ -336,6 +348,35 @@ export function TrailMap({ cooperativeGestures = true }: TrailMapProps) {
                   className="w-full rounded-lg border border-border bg-card p-2 pe-7 text-xs text-foreground"
                 />
               </div>
+
+              {/* The map's own POI markers are canvas-rendered and only reveal
+                  their name/description via mouse click — there's no way to
+                  Tab to one or have a screen reader see it (WCAG 2.1.1). This
+                  list is the accessible equivalent: every point's full text is
+                  always visible here, and the button also re-centers the map
+                  on it for sighted mouse users following along. */}
+              <ul className="mt-3 space-y-2">
+                {filteredPois.length === 0 && (
+                  <li className="text-xs text-muted-foreground">אין נקודות עניין התואמות את הסינון.</li>
+                )}
+                {filteredPois.map((poi) => (
+                  <li key={poi.id} className="rounded-lg border border-border bg-card p-2">
+                    <button
+                      type="button"
+                      onClick={() => selectPoi(poi)}
+                      className="text-start text-xs font-bold text-foreground hover:text-primary hover:underline"
+                    >
+                      {poi.name}
+                      <span className="sr-only"> — הצגה במפה</span>
+                    </button>
+                    <p className="text-xs text-muted-foreground">
+                      {POI_CATEGORY_LABELS[poi.category] ?? "נקודת עניין"}
+                      {poi.description ? ` · ${poi.description}` : ""}
+                    </p>
+                    {poi.notes && <p className="text-xs text-muted-foreground">{poi.notes}</p>}
+                  </li>
+                ))}
+              </ul>
             </section>
           )}
 

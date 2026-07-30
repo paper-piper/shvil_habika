@@ -11,7 +11,7 @@ export const metadata = {
  */
 const ACCESSIBILITY_CONTACT_NAME = "יונתן"
 const ACCESSIBILITY_CONTACT_PHONE = "054-2919409"
-const ACCESSIBILITY_CONTACT_EMAIL = "shvilhabikaeinprat@gmail.com"
+const ACCESSIBILITY_CONTACT_EMAIL = "info@shvilhabika.org"
 const LAST_UPDATED = "28 ביולי 2026"
 
 export default function AccessibilityPage() {

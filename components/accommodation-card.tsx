@@ -24,7 +24,7 @@ export function AccommodationCard({ accommodation, className }: AccommodationCar
         className
       )}
     >
-      <div className="aspect-[4/3] relative overflow-hidden">
+      <div className="aspect-4/3 relative overflow-hidden">
         {accommodation.image ? (
           <Image
             src={accommodation.image}

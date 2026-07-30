@@ -47,8 +47,8 @@ export default function TermsPage() {
             <h2 className="text-xl font-bold text-foreground mb-4">דיווח על תוכן מפר</h2>
             <p className="mb-6 leading-relaxed">
               אם נתקלתם בתוכן המפר את תנאי השימוש נודה לכם אם תיידעו את האתר באמצעות משלוח הודעה, המפרטת את התוכן המפר, לכתובת הדוא"ל:{" "}
-              <a href="mailto:shvilhabikaeinprat@gmail.com" className="text-primary hover:underline">
-                shvilhabikaeinprat@gmail.com
+              <a href="mailto:info@shvilhabika.org" className="text-primary hover:underline">
+                info@shvilhabika.org
               </a>
             </p>
 

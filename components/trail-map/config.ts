@@ -38,6 +38,26 @@ export const SEG_OUTLINE = "#F5F1E8"
 export const FALLBACK_COLOR = "#4F681A"
 export const HIGHLIGHT_COLOR = "#2C3E2F"
 
+/* Mapbox GL's built-in controls (zoom buttons, attribution, the "hold ctrl to
+   zoom" gesture overlay) ship hard-coded English strings with no locale
+   detection — left as-is, they're the only English text anywhere on this
+   Hebrew site, visible to every user (not just assistive tech) the first time
+   they scroll over the map without Ctrl/⌘ held. */
+export const MAP_LOCALE: Record<string, string> = {
+  "AttributionControl.ToggleAttribution": "הצגה או הסתרה של קרדיטים",
+  "FullscreenControl.Enter": "כניסה למסך מלא",
+  "FullscreenControl.Exit": "יציאה ממסך מלא",
+  "GeolocateControl.FindMyLocation": "איתור המיקום שלי",
+  "GeolocateControl.LocationNotAvailable": "המיקום אינו זמין",
+  "Map.Title": "מפת שביל הבקעה",
+  "NavigationControl.ResetBearing": "איפוס כיוון לצפון",
+  "NavigationControl.ZoomIn": "התקרבות",
+  "NavigationControl.ZoomOut": "התרחקות",
+  "ScrollZoomBlocker.CtrlMessage": "החזיקו Ctrl וגללו כדי לשנות את מרחק התצוגה במפה",
+  "ScrollZoomBlocker.CmdMessage": "החזיקו ⌘ וגללו כדי לשנות את מרחק התצוגה במפה",
+  "TouchPanBlocker.Message": "השתמשו בשתי אצבעות כדי להזיז את המפה",
+}
+
 export const LOAD_TIMEOUT_MS = 15000
 
 export const DEFAULT_VIEW = {

@@ -16,12 +16,21 @@ import {
   LOAD_TIMEOUT_MS,
   DEFAULT_VIEW,
   SEGMENT_META,
+  MAP_LOCALE,
 } from "./config"
 
 type Bbox = [number, number, number, number]
 
 export type SegmentStat = { segment: number; lengthKm: number; bbox: Bbox }
 export type TrailMapStatus = "loading" | "ready" | "error"
+export type PoiItem = {
+  id: number
+  name: string
+  category: string
+  description: string
+  notes: string | null
+  lngLat: [number, number]
+}
 
 const FALLBACK_POI_ICON_ID = "poi-icon-fallback"
 const POI_CATEGORY_ICON_IDS: Record<string, string> = {
@@ -153,6 +162,7 @@ export function useTrailMap({ cooperativeGestures = true }: UseTrailMapOptions =
   const [segmentStats, setSegmentStats] = useState<SegmentStat[]>([])
   const [totalKm, setTotalKm] = useState<number | null>(null)
   const [poiCount, setPoiCount] = useState<number | null>(null)
+  const [pois, setPois] = useState<PoiItem[]>([])
   const [selectedSegment, setSelectedSegment] = useState<number | null>(null)
 
   const fitBounds = useCallback((box: Bbox, padding = 60) => {
@@ -190,6 +200,14 @@ export function useTrailMap({ cooperativeGestures = true }: UseTrailMapOptions =
     if (allBboxRef.current) fitBounds(allBboxRef.current)
   }, [selectSegment, fitBounds])
 
+  // The map's own POI markers only expose name/description via a mouse-click
+  // popup (Mapbox symbol layers aren't individually keyboard-focusable or
+  // screen-reader-visible — WCAG 2.1.1 Keyboard). This is the accessible
+  // equivalent: flies the map to the point, same as a mouse click would.
+  const selectPoi = useCallback((poi: PoiItem) => {
+    mapRef.current?.flyTo({ center: poi.lngLat, zoom: Math.max(mapRef.current.getZoom(), 14), duration: 650 })
+  }, [])
+
   const applyPoiFilter = useCallback((category: string, query: string) => {
     const map = mapRef.current
     if (!map?.getLayer("poi-layer")) return
@@ -218,6 +236,7 @@ export function useTrailMap({ cooperativeGestures = true }: UseTrailMapOptions =
       center: DEFAULT_VIEW.center,
       zoom: DEFAULT_VIEW.zoom,
       cooperativeGestures,
+      locale: MAP_LOCALE,
     })
     mapRef.current = map
     map.addControl(new mapboxgl.NavigationControl(), "top-left")
@@ -348,6 +367,18 @@ export function useTrailMap({ cooperativeGestures = true }: UseTrailMapOptions =
         if (cancelled) return
         addPoiLayer()
         setPoiCount(data.features.length)
+        setPois(
+          data.features
+            .filter((f): f is GeoJSON.Feature<GeoJSON.Point> => f.geometry?.type === "Point")
+            .map((f, i) => ({
+              id: i,
+              name: String(f.properties?.name ?? "נקודת עניין"),
+              category: String(f.properties?.category ?? ""),
+              description: String(f.properties?.description ?? ""),
+              notes: f.properties?.notes ? String(f.properties.notes) : null,
+              lngLat: f.geometry.coordinates as [number, number],
+            }))
+        )
       } catch {
         // Points of interest are supplementary — the trail still works without them.
         if (!cancelled) setPoiCount(null)
@@ -420,6 +451,8 @@ export function useTrailMap({ cooperativeGestures = true }: UseTrailMapOptions =
     segmentStats,
     totalKm,
     poiCount,
+    pois,
+    selectPoi,
     selectedSegment,
     selectSegment,
     fitAll,
