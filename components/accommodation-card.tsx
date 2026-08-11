@@ -1,6 +1,54 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
-import { ExternalLink, MapPin, Phone, Users } from "lucide-react"
+import { Check, Copy, ExternalLink, MapPin, Phone, Users } from "lucide-react"
 import { cn } from "@/lib/utils"
+
+const PHONE_REGEX = /0\d{1,2}-?\d{7}/g
+
+// Splits a contact string like "יואל 0542022499 / נעמה 0526091150" into
+// per-person segments, each paired with the phone number found in it (if any).
+function parseContactSegments(contact: string) {
+  return contact.split("/").map((segment) => {
+    const trimmed = segment.trim()
+    const match = trimmed.match(PHONE_REGEX)
+    const phone = match?.[0]
+    const label = phone ? trimmed.replace(phone, "").trim() : trimmed
+    return { label, phone }
+  })
+}
+
+function CopyPhoneButton({ phone }: { phone: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(phone)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      // clipboard access unavailable; nothing to fall back to
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      aria-label={`העתק מספר טלפון ${phone}`}
+      className="inline-flex items-center gap-1.5 rounded-md border border-border px-2 py-0.5 text-sm text-foreground hover:bg-muted transition-colors"
+    >
+      <span dir="ltr">{phone}</span>
+      {copied ? (
+        <Check className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+      ) : (
+        <Copy className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
+      )}
+      <span className="sr-only">{copied ? "הועתק" : "העתק"}</span>
+    </button>
+  )
+}
 
 interface AccommodationCardProps {
   accommodation: {
@@ -75,12 +123,17 @@ export function AccommodationCard({ accommodation, className }: AccommodationCar
             </div>
           )}
           {accommodation.contact && (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Phone className="h-4 w-4 text-primary" aria-hidden="true" />
-              <span>
-                <span className="sr-only">איש קשר: </span>
-                {accommodation.contact}
-              </span>
+            <div className="flex items-start gap-2 text-sm text-muted-foreground">
+              <Phone className="h-4 w-4 text-primary mt-0.5 shrink-0" aria-hidden="true" />
+              <span className="sr-only">איש קשר: </span>
+              <div className="flex flex-col gap-1.5">
+                {parseContactSegments(accommodation.contact).map((segment, i) => (
+                  <div key={i} className="flex items-center gap-2 flex-wrap">
+                    {segment.label && <span>{segment.label}</span>}
+                    {segment.phone && <CopyPhoneButton phone={segment.phone} />}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
