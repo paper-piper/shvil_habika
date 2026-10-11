@@ -6,7 +6,7 @@ interface TrailAngelCardProps {
     name: string
     services: string
     location: string
-    phone: string
+    phone?: string
   }
   className?: string
 }
@@ -43,14 +43,16 @@ export function TrailAngelCard({ angel, className }: TrailAngelCardProps) {
 
           {/* Every angel card otherwise exposes a link named only by a bare
               phone number, with no indication of whom it calls. */}
-          <a
-            href={`tel:${angel.phone}`}
-            aria-label={`התקשרו ל${angel.name} בטלפון ${angel.phone}`}
-            className="inline-flex items-center gap-2 text-primary font-medium text-sm hover:underline"
-          >
-            <Phone className="h-4 w-4" aria-hidden="true" />
-            <span dir="ltr">{angel.phone}</span>
-          </a>
+          {angel.phone && (
+            <a
+              href={`tel:${angel.phone}`}
+              aria-label={`התקשרו ל${angel.name} בטלפון ${angel.phone}`}
+              className="inline-flex items-center gap-2 text-primary font-medium text-sm hover:underline"
+            >
+              <Phone className="h-4 w-4" aria-hidden="true" />
+              <span dir="ltr">{angel.phone}</span>
+            </a>
+          )}
         </div>
       </div>
     </div>
